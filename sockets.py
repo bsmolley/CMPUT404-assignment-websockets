@@ -59,8 +59,6 @@ class World:
     def world(self):
         return self.space
 
-clients = list()
-
 class Client:
     def __init__(self):
         self.queue = queue.Queue()
@@ -72,18 +70,18 @@ class Client:
         return self.queue.get()
 
 
-myWorld = World()        
-
 def set_listener( entity, data ):
     ''' do something with the update ! '''  
-
-
-def send_all(msg):
+    obj = dict()
+    obj[entity] = data
+    msg = json.dumps(obj)
     for client in clients:
         client.put(msg)
 
-def send_all_json(msg):
-    send_all(json.dumps(obj))
+clients = list()        
+myWorld = World()        
+
+myWorld.add_set_listener(set_listener)
 
 @app.route('/')
 def hello():
@@ -95,18 +93,17 @@ def read_ws(ws,client):
     # XXX: TODO IMPLEMENT ME
     try:
         while True:
-            ws.receive()
+            msg = ws.receive()
             print "WS RECV: %s" % msg
             if (msg is not None):
-                print "sending packets"
-                time.sleep(3)
                 packet = json.loads(msg)
-                send_all_json(packet)
+                for key in packet:
+                    myWorld.set(key, packet[key])
             else:
                 break
     except:
         "Done"
-    #return None
+    return None
 
 @sockets.route('/subscribe')
 def subscribe_socket(ws):
@@ -126,7 +123,7 @@ def subscribe_socket(ws):
         print "WS Error %s" % e
     finally:
         clients.remove(client)
-        gevent.kill(g)
+        gevent.kill()
 
 
 

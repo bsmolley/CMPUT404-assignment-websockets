@@ -57,3 +57,20 @@ Contributors
 
 * Mark Galloway
 * Abram Hindle
+
+
+Sources
+============
+https://github.com/abramhindle/WebSocketsExamples/blob/master/chat.py#L48
+- Abram Hindle
+
+http://stackoverflow.com/questions/3068534/getting-javascript-object-key-list
+- zed_0xff
+
+Spheal Image
+http://www.supercoloring.com/sites/default/files/styles/coloring_medium/public/cif/2015/07/363-spheal-coloring-page.png
+
+
+Consultation
+============
+Kieran Boyle, Kathleen Baker
